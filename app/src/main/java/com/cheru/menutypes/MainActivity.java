@@ -3,15 +3,54 @@ package com.cheru.menutypes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
+    ActionMode actionMode1;
+
+    private ActionMode.Callback actionModeCallBack = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.actionmode_context_menu, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+            switch (menuItem.getItemId()){
+                case R.id.actionmodemenu1:
+                    Toast.makeText(MainActivity.this, "Action mode 1 clicked", Toast.LENGTH_LONG).show();
+                    actionMode.finish();
+                    return true;
+                case R.id.actionmodemenu2:
+                    Toast.makeText(MainActivity.this,"Action mode 2 performed", Toast.LENGTH_LONG).show();
+                    actionMode.finish();
+                    return true;
+                    default:
+                        return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode actionMode) {
+            actionMode1 = null;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +59,18 @@ public class MainActivity extends AppCompatActivity {
 
         TextView tv = findViewById(R.id.textTitle);
         this.registerForContextMenu(tv);
+
+        Button btn = findViewById(R.id.btnActionModeMenu);
+        btn.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (actionMode1 != null){
+                    return false;
+            }
+                actionMode1 = startActionMode(actionModeCallBack);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -65,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
                 default:
                     return super.onContextItemSelected(item);
+        }
     }
-    }
+
 }
