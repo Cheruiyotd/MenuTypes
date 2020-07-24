@@ -10,10 +10,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
 
     ActionMode actionMode1;
 
@@ -119,4 +120,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void showPopupMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(this,view);
+        popupMenu.setOnMenuItemClickListener(this);
+        popupMenu.inflate(R.menu.popup_menu);
+        popupMenu.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.popupMenuItem1:
+                Toast.makeText(this,"Item 1 selected", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.popupMenuItem2:
+                Toast.makeText(this,"Item 2 selected", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.popupMenuItem3:
+                Toast.makeText(this,"Item 3 selected", Toast.LENGTH_LONG).show();
+                return true;
+        default:
+            return false;}
+    }
 }
