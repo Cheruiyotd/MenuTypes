@@ -2,6 +2,7 @@ package com.cheru.menutypes;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.ContextMenu;
@@ -84,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+       if (item.isChecked()) item.setChecked(false);
+       else item.setChecked(true);
         switch (item.getItemId())
         {
             case R.id.menuItem1:
@@ -141,5 +144,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 return true;
         default:
             return false;}
+    }
+    public void showListViewActivity(View view){
+        Intent intent = new Intent(this, ListViewActivity.class);
+        startActivity(intent);
     }
 }
